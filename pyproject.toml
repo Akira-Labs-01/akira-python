@@ -1,5 +1,5 @@
 [project]
-name = "akira"
+name = "akiralabs"
 version = "0.0.2"
 description = "The official Python library for the akira API"
 dynamic = ["readme"]
