@@ -1,7 +1,7 @@
 # Akira Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/akira.svg?label=pypi%20(stable))](https://pypi.org/project/akira/)
+[![PyPI version](https://img.shields.io/pypi/v/akiralabs.svg?label=pypi%20(stable))](https://pypi.org/project/akiralabs/)
 
 The Akira Python library provides convenient access to the Akira REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
@@ -16,12 +16,9 @@ The REST API documentation can be found on [platform.akiralabs.ai](https://platf
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/Akira-Labs-01/akira-python.git
+# install from PyPI
+pip install akiralabs
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install akira`
 
 ## Usage
 
@@ -75,8 +72,8 @@ By default, the async client uses `httpx` for HTTP requests. However, for improv
 You can enable this by installing `aiohttp`:
 
 ```sh
-# install from the production repo
-pip install 'akira[aiohttp] @ git+ssh://git@github.com/Akira-Labs-01/akira-python.git'
+# install from PyPI
+pip install akiralabs[aiohttp]
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
