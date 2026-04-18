@@ -31,7 +31,6 @@ from akira._response import (
     StreamedBinaryAPIResponse,
     AsyncStreamedBinaryAPIResponse,
 )
-from akira._decoders.jsonl import JSONLDecoder, AsyncJSONLDecoder
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -378,7 +377,8 @@ class TestSandboxes:
             id="id",
             command="npm run dev",
         )
-        assert_matches_type(JSONLDecoder[SandboxExecuteAsyncResponse], sandbox_stream, path=["response"])
+        for item in sandbox_stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -389,7 +389,8 @@ class TestSandboxes:
             env={"foo": "string"},
             working_dir="working_dir",
         )
-        assert_matches_type(JSONLDecoder[SandboxExecuteAsyncResponse], sandbox_stream, path=["response"])
+        for item in sandbox_stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -401,7 +402,8 @@ class TestSandboxes:
 
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         stream = response.parse()
-        stream.close()
+        for item in stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["line"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -414,7 +416,8 @@ class TestSandboxes:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             stream = response.parse()
-            stream.close()
+            for item in stream:
+                assert_matches_type(SandboxExecuteAsyncResponse, item, path=["item"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -971,7 +974,8 @@ class TestAsyncSandboxes:
             id="id",
             command="npm run dev",
         )
-        assert_matches_type(AsyncJSONLDecoder[SandboxExecuteAsyncResponse], sandbox_stream, path=["response"])
+        async for item in sandbox_stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -982,7 +986,8 @@ class TestAsyncSandboxes:
             env={"foo": "string"},
             working_dir="working_dir",
         )
-        assert_matches_type(AsyncJSONLDecoder[SandboxExecuteAsyncResponse], sandbox_stream, path=["response"])
+        async for item in sandbox_stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -994,7 +999,8 @@ class TestAsyncSandboxes:
 
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         stream = await response.parse()
-        await stream.close()
+        async for item in stream:
+            assert_matches_type(SandboxExecuteAsyncResponse, item, path=["line"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -1007,7 +1013,8 @@ class TestAsyncSandboxes:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             stream = await response.parse()
-            await stream.close()
+            async for item in stream:
+                assert_matches_type(SandboxExecuteAsyncResponse, item, path=["item"])
 
         assert cast(Any, response.is_closed) is True
 
